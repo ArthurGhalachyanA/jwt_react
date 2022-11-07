@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Navigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {checkAuth} from './redux/actions/AuthActions';
+import {checkAuth, setLoading} from './redux/actions/AuthActions';
 import {Routes, Route} from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
@@ -16,15 +16,19 @@ const App = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(localStorage.getItem('token')){
-            dispatch(checkAuth());
-        }
+        (async () => {
+            if(localStorage.getItem('token')){
+                await dispatch(checkAuth());
+            }
+
+            dispatch(setLoading(false));
+        })();
     }, []);
 
     if(isLoading){
-        return <div>loading...</div>
+        return;
     }
-    
+
     if(!isAuth){
         return (
             <Routes>

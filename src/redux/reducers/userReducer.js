@@ -3,7 +3,7 @@ const defaultState = {
     isAuth: false,
     validationErrors: [],
     errorMessage: '',
-    isLoading: false
+    isLoading: true
 };
 
 export const userReducer = (state = defaultState, action) => {

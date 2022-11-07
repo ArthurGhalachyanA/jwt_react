@@ -54,7 +54,6 @@ export function logout(){
 
 export function checkAuth(){
     return async (dispatch) => {
-        dispatch(setLoading(true));
         const {data} = await api.get(`/refresh`, {withCredentials:true});
 
         console.log(data);
@@ -62,8 +61,6 @@ export function checkAuth(){
         localStorage.setItem('token', data.tokens.accessToken);
         dispatch(setAuth(true));
         dispatch(setUser(data.user));
-
-        dispatch(setLoading(false));
     }
 }
 
@@ -101,7 +98,7 @@ function setValidationErrors(payload){
     }
 }
 
-function setLoading(payload){
+export function setLoading(payload){
     return {
         type:'SET_LOADING',
         payload

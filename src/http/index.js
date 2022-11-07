@@ -32,6 +32,7 @@ api.interceptors.response.use((config) => {
             }
         }else if(originalRequest.sent){
             localStorage.removeItem('token');
+            window.location.href = window.location.origin;
         }
     }
 
