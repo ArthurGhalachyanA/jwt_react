@@ -24,30 +24,28 @@ const App = () => {
     if(isLoading){
         return <div>loading...</div>
     }
-
-
-    if(!isLoading){
-        if(!isAuth){
-            return (
-                <Routes>
-                    <Route path="login" element={<LoginForm />} />
-                    <Route path="sign-up" element={<SignUpForm />} />
-                    <Route path="*" element={<Navigate to="/login" />} />
-                </Routes>
-            );
-        }
-
+    
+    if(!isAuth){
         return (
-            <LayoutMain>
-                <Routes>
-                    <Route path="/" element={<WorkspaceIndex />} />
-                    <Route path="/workspace/create" element={<WorkspaceCreate />} />
-                    <Route path="/workspace/update/:slug" element={<WorkspaceUpdate />} />
-                    <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-            </LayoutMain>
+            <Routes>
+                <Route path="login" element={<LoginForm />} />
+                <Route path="sign-up" element={<SignUpForm />} />
+                <Route path="*" element={<Navigate to="/login" />} />
+            </Routes>
         );
     }
+
+    return (
+        <LayoutMain>
+            <Routes>
+                <Route path="/" element={<WorkspaceIndex />} />
+                <Route path="/workspace/create" element={<WorkspaceCreate />} />
+                <Route path="/workspace/update/:slug" element={<WorkspaceUpdate />} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </LayoutMain>
+    );
+
 };
 
 export default App;
