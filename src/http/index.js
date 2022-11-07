@@ -18,21 +18,17 @@ api.interceptors.response.use((config) => {
 }, async (error) => {
     const originalRequest = error.config;
 
-    if(error.response && error.response.status === 401){
-        if(error.config && !originalRequest.sent){
-            originalRequest.sent = true;
-            try {
-                const response = await axios.get(`${API_URL}/refresh`, {withCredentials:true});
-                localStorage.setItem('token', response.data.tokens.accessToken);
+    if(error.response && error.response.status === 401 && !originalRequest.sent){
+        originalRequest.sent = true;
+        try {
+            const response = await axios.get(`${API_URL}/refresh`, {withCredentials:true});
+            localStorage.setItem('token', response.data.tokens.accessToken);
 
-                return api.request(originalRequest);
-            }catch (e) {
-                localStorage.removeItem('token');
-                return Promise.reject(error);
-            }
-        }else if(originalRequest.sent){
+            return api.request(originalRequest);
+        }catch (e) {
             localStorage.removeItem('token');
             window.location.href = window.location.origin;
+            return Promise.reject(error);
         }
     }
 
